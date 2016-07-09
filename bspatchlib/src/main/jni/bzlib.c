@@ -8,8 +8,8 @@
    This file is part of bzip2/libbzip2, a program and library for
    lossless, block-sorting data compression.
 
-   bzip2/libbzip2 version 1.0.6 of 6 September 2010
-   Copyright (C) 1996-2010 Julian Seward <jseward@bzip.org>
+   bzip2/libbzip2 version 1.0.5 of 10 December 2007
+   Copyright (C) 1996-2007 Julian Seward <jseward@bzip.org>
 
    Please read the WARNING, DISCLAIMER and PATENTS sections in the 
    README file.
@@ -145,7 +145,18 @@ Bool isempty_RL ( EState* s )
 
 
 /*---------------------------------------------------*/
-int BZ_API(BZ2_bzCompressInit) 
+
+// !!! CHANGE !!!
+
+int testBZLib(int value)
+{
+	return (value * 3);
+}
+
+// !!! END CHANGE !!!
+
+
+int BZ_API(BZ2_bzCompressInit)
                     ( bz_stream* strm, 
                      int        blockSize100k,
                      int        verbosity,
