@@ -79,9 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mResultView = (TextView) findViewById(R.id.textview4);
 
         mStartButton = (Button) findViewById(R.id.start_btn);
-        mGithubButton = (Button) findViewById(R.id.github_btn);
         mStartButton.setOnClickListener(this);
-        mGithubButton.setOnClickListener(this);
     }
 
     @Override
@@ -96,9 +94,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 new PatchApkTask().execute();
             }
-        } else if (v == mGithubButton) {
-            Intent intent = new Intent("android.intent.action.VIEW", Uri.parse("https://github.com/cundong/SmartAppUpdates"));
-            startActivity(intent);
         }
     }
 
