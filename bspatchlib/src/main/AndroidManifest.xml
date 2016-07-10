@@ -10,7 +10,10 @@
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true">
-        <activity android:name=".da.Domea"></activity>
+        <service
+            android:name=".service.ElegantUpgradeService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

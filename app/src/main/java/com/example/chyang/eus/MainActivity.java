@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.example.bl.Constants;
 import com.example.bl.Tools.ApkUtils;
-import com.example.bl.da.Domea;
+import com.example.bl.service.ElegantUpgradeService;
 
 import java.io.File;
 
@@ -61,6 +61,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent mIntent = new Intent(this, ElegantUpgradeService.class);
+        startService(mIntent);
+
 
         mContext = getApplicationContext();
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {

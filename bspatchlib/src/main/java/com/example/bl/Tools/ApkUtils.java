@@ -35,8 +35,8 @@ public class ApkUtils {
    * @param oldApkFilePath   The path of the old version apk
    * @param newApkFilePath   The path of the new version apk
    * @param patchFilePath  After the synthesis path of the new apk
-     * @return 0 success。 If flash back Make sure if the file read and write permissions
-     */
+   * @return 0 success。 If flash back Make sure if the file read and write permissions
+   */
   public static native int applyPatch(String oldApkFilePath, String newApkFilePath, String patchFilePath);
 
 
