@@ -12,7 +12,7 @@ extern "C" {
  * Method:    applyPatch
  * Signature: (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
  */
-JNIEXPORT jint JNICALL Java_com_example_bl_Tools_PatchHelper_applyPatch
+JNIEXPORT jint JNICALL Java_com_example_bl_Tools_ApkUtils_applyPatch
   (JNIEnv *, jclass, jstring, jstring, jstring);
 
 #ifdef __cplusplus

@@ -36,6 +36,8 @@ __FBSDID("$FreeBSD: src/usr.bin/bsdiff/bspatch/bspatch.c,v 1.1 2005/08/06 01:59:
 #include <unistd.h>
 #include <fcntl.h>
 
+#include <android/log.h>
+
 static off_t offtin(unsigned char *buf)
 {
 	off_t y;
@@ -203,8 +205,8 @@ int applypatch(int argc,char * argv[])
 	return 0;
 }
 
-JNIEXPORT jint JNICALL Java_com_example_bl_Tools_PatchHelper_applyPatch(JNIEnv *env, 
-	jclass obj, jstring oldApkFilePath, jstring newApkFilePath, jstring pathFilePath){
+JNIEXPORT jint JNICALL Java_com_example_bl_Tools_ApkUtils_applyPatch(JNIEnv *env,
+                                                                     jclass obj, jstring oldApkFilePath, jstring newApkFilePath, jstring pathFilePath){
 	int argc=4;
 	char * argv[argc];
 	argv[0]="bspatch";
@@ -212,7 +214,14 @@ JNIEXPORT jint JNICALL Java_com_example_bl_Tools_PatchHelper_applyPatch(JNIEnv *
 	argv[2]=(*env)->GetStringUTFChars(env,newApkFilePath, 0);
 	argv[3]=(*env)->GetStringUTFChars(env,pathFilePath, 0);
 
-	int ret=applypatch(argc, argv);
+    __android_log_print(ANDROID_LOG_INFO, "ApkPatchLibrary", "old = %s ", argv[1]);
+    __android_log_print(ANDROID_LOG_INFO, "ApkPatchLibrary", "new = %s ", argv[2]);
+    __android_log_print(ANDROID_LOG_INFO, "ApkPatchLibrary", "patch = %s ", argv[3]);
+
+
+    int ret=applypatch(argc, argv);
+
+    __android_log_print(ANDROID_LOG_INFO, "ApkPatchLibrary", "applypatch result = %d ", ret);
 
 	(*env)->ReleaseStringUTFChars(env,oldApkFilePath,argv[1]);
 	(*env)->ReleaseStringUTFChars(env,newApkFilePath,argv[2]);

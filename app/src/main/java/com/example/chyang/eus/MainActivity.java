@@ -1,15 +1,17 @@
 package com.example.chyang.eus;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,10 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.example.bl.ApkUtils;
 import com.example.bl.Constants;
-import com.example.bl.SignUtils;
-import com.example.bl.Tools.PatchHelper;
+import com.example.bl.Tools.ApkUtils;
+import com.example.bl.da.Domea;
 
 import java.io.File;
 
@@ -62,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         mContext = getApplicationContext();
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+        }
 
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -130,12 +134,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (!TextUtils.isEmpty(oldApkSource)) {
 
                     // 校验一下本地安装APK的MD5是不是和真实的MD5一致
-                    if (SignUtils.checkMd5(oldApkSource, mCurentRealMD5)) {
-                        int patchResult = PatchHelper.applyPatch(oldApkSource, Constants.NEW_APK_PATH, Constants.PATCH_PATH);
+                    if (ApkUtils.checkMD5(oldApkSource, mCurentRealMD5)) {
+                        int patchResult = ApkUtils.applyPatch(oldApkSource, Constants.NEW_APK_PATH, Constants.PATCH_PATH);
 
                         if (patchResult == 0) {
 
-                            if (SignUtils.checkMd5(Constants.NEW_APK_PATH, mNewRealMD5)) {
+                            if (ApkUtils.checkMD5(Constants.NEW_APK_PATH, mNewRealMD5)) {
                                 return WHAT_SUCCESS;
                             } else {
                                 return WHAT_FAIL_GEN_MD5;
@@ -224,7 +228,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
-    static {
-        System.loadLibrary("Patcher");
-    }
+
 }
