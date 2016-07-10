@@ -5,9 +5,7 @@ package com.example.bl.Tools;
  */
 public class PatchHelper {
 
-   static {
-       System.loadLibrary("Patcher");
-   }
 
-  public native int applyPatch(String oldApkFilePath, String newApkFilePath, String patchFilePath);
+
+  public static native int applyPatch(String oldApkFilePath, String newApkFilePath, String patchFilePath);
 }
