@@ -1,4 +1,4 @@
-package com.lewa.chyang.eus;
+package com.lewa.chyang.bspapilib;
 
 import org.junit.Test;
 

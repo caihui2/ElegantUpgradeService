@@ -1,1 +1,1 @@
-include ':app', ':bspatchlib'
+include ':app', ':bspatchlib', ':UpgradDome', ':bspapilib'

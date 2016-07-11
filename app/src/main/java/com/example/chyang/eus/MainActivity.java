@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -21,9 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.example.bl.Constants;
-import com.example.bl.Tools.ApkUtils;
-import com.example.bl.service.ElegantUpgradeService;
+import com.lewa.bl.Constants;
+import com.lewa.bl.Tools.ApkUtils;
+import com.lewa.bl.service.ElegantUpgradeService;
 
 import java.io.File;
 
@@ -53,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ProgressDialog mProgressDialog;
     private TextView mResultView;
-    private Button mStartButton, mGithubButton;
+    private Button mStartButton, mUsB;
 
     private long mBeginTime, mEndTime;
 
@@ -79,7 +78,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mResultView = (TextView) findViewById(R.id.textview4);
 
         mStartButton = (Button) findViewById(R.id.start_btn);
+        mUsB = (Button) findViewById(R.id.service_btn);
         mStartButton.setOnClickListener(this);
+        mUsB.setOnClickListener(this);
     }
 
     @Override
@@ -94,6 +95,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 new PatchApkTask().execute();
             }
+        }
+        if(v == mUsB) {
+            Intent mIntent = new Intent(this, ServiceControlActivity.class);
+            startActivity(mIntent);
         }
     }
 

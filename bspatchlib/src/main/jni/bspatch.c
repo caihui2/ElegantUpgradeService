@@ -205,7 +205,7 @@ int applypatch(int argc,char * argv[])
 	return 0;
 }
 
-JNIEXPORT jint JNICALL Java_com_example_bl_Tools_ApkUtils_applyPatch(JNIEnv *env,
+JNIEXPORT jint JNICALL Java_com_lewa_bl_Tools_ApkUtils_applyPatch(JNIEnv *env,
                                                                      jclass obj, jstring oldApkFilePath, jstring newApkFilePath, jstring pathFilePath){
 	int argc=4;
 	char * argv[argc];

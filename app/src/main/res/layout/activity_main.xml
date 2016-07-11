@@ -12,6 +12,12 @@
         android:layout_height="wrap_content"
         android:text="@string/demo_start" />
 
+    <Button
+        android:id="@+id/service_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="UpgradeSer"/>
+
 
     <TextView
         android:id="@+id/textview4"
