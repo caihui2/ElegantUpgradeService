@@ -10,6 +10,8 @@ import android.os.IBinder;
 import android.os.RemoteException;
 
 import com.lewa.bl.IUpgradeApkInterface;
+import com.lewa.bl.IUpgradeStateListen;
+import com.lewa.chyang.bspapilib.entity.UpgradeInfo;
 
 import java.util.HashMap;
 
@@ -23,6 +25,18 @@ public class ServiceHelper {
 
     private static final String  UPGRADE_SERVICE_CLASS_NAME = "com.lewa.bl.service.ElegantUpgradeService";
     private static final String UPGRADE_SERVICE_PACLAGE_NAME = "com.example.chyang.eus";
+
+    /**
+     * Access to updated information
+     */
+    public interface RequestUpgradeInfoListen {
+        public void toAcquireUpgradeInfoError(String errorInfo);
+        public void  toAcquireUpgradeInfoComplete(UpgradeInfo upgradeInfo);
+    }
+
+    private RequestUpgradeInfoListen mRequestUpgradeInfoListen;
+
+
 
     /**
      * @param context the use {@link Context}
@@ -96,6 +110,11 @@ public class ServiceHelper {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             sServices = IUpgradeApkInterface.Stub.asInterface(service);
+            try {
+                sServices.setUpgradeStateListen(new IUpgradeStateListens());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             if(mCallback != null) {
                 mCallback.onServiceConnected(name, service);
             }
@@ -110,12 +129,40 @@ public class ServiceHelper {
         }
     }
 
+    class IUpgradeStateListens extends IUpgradeStateListen.Stub {
 
-    public void UpgradeApk(String pkgName, boolean IsSilentInstallation) {
+        @Override
+        public void toAcquireUpgradeInfoError(String errorInfo) throws RemoteException {
+            if(mRequestUpgradeInfoListen != null) mRequestUpgradeInfoListen.toAcquireUpgradeInfoError(errorInfo);
+        }
+
+        @Override
+       public void  toAcquireUpgradeInfoComplete(String pkgName, String versionInfo, String rtNewApkMD5, String upPathAddress, String newApkAddress){
+            if(mRequestUpgradeInfoListen != null) {
+                UpgradeInfo mUpgradeInfo = new UpgradeInfo(pkgName, versionInfo, rtNewApkMD5, upPathAddress, newApkAddress);
+                mRequestUpgradeInfoListen.toAcquireUpgradeInfoComplete(mUpgradeInfo);
+            }
+        }
+    }
+
+    /**
+     *
+     * @param requestUpgradeInfoListen the use{@link RequestUpgradeInfoListen}
+     */
+    public void setRequestUpgradeInfoListen(RequestUpgradeInfoListen requestUpgradeInfoListen) {
+        this.mRequestUpgradeInfoListen = requestUpgradeInfoListen;
+    }
+
+    /**
+     * To request the server to pull update information, if you want to listen to the results of the return call
+     * {@link ServiceHelper#setRequestUpgradeInfoListen(RequestUpgradeInfoListen)}
+     * @param pkgName Ask for the name of the package
+     */
+    public void toAcquireUpgradeInfo(String pkgName) {
         if(sServices == null) throw  new NullPointerException(" service == null  please call bindToService() ");
         if(sServices != null) {
             try {
-                sServices.UpgradeApk(pkgName, IsSilentInstallation);
+                sServices.toAcquireUpgradeInfo(pkgName);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

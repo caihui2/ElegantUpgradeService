@@ -5,5 +5,6 @@ package com.lewa.bl;
 
 interface IUpgradeApkInterface {
 
-    void UpgradeApk(String pkgName, boolean IsSilentInstallation);
+    void toAcquireUpgradeInfo(String pkgName);
+    void setUpgradeStateListen(IBinder binder);
 }
