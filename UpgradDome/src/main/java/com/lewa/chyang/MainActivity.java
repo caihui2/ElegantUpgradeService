@@ -1,12 +1,11 @@
 package com.lewa.chyang;
 
-import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.lewa.bl.IUpgradeStateListen;
 import com.lewa.chyang.bspapilib.ServiceHelper;
+import com.lewa.chyang.bspapilib.entity.UpgradeInfo;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -19,13 +18,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         mServiceHelper = new ServiceHelper();
         mServiceHelper.bindToService(this);
+        mServiceHelper.setRequestUpgradeInfoListen(mRequestUpgradeInfoListen);
         findViewById(R.id.call_install).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.call_install) {
-            mServiceHelper.UpgradeApk("com.sina.weibo", false);
+            mServiceHelper.toAcquireUpgradeInfo("com.sina.weibo");
         }
     }
+
+    private ServiceHelper.RequestUpgradeInfoListen mRequestUpgradeInfoListen = new ServiceHelper.RequestUpgradeInfoListen() {
+        @Override
+        public void toAcquireUpgradeInfoError(String errorInfo) {
+
+        }
+
+        @Override
+        public void toAcquireUpgradeInfoComplete(UpgradeInfo upgradeInfo) {
+            System.out.println(upgradeInfo);
+        }
+    };
 }
