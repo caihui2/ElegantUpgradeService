@@ -1,1 +1,1 @@
-include ':app', ':bspatchlib', ':UpgradDome', ':bspapilib'
+include ':app', ':bspatchlib', ':UpgradDome', ':bspapilib', ':okhttputils', ':okhttpserver'

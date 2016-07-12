@@ -30,7 +30,6 @@ public class ElegantUpgradeService extends Service {
         if(mPackageInfo == null) {
 
         }
-
     }
 
     @Override
